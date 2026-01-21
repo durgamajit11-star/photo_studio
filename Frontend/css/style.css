@@ -55,7 +55,7 @@ color: var(--orange);
 /* ===== HERO SECTION ===== */
 .hero{
 min-height: 80vh;
-background:url('assets/images/hero.jpg') center/cover no-repeat;
+background-image: url('assets/images/hero.jpg');
 display:flex;
 justify-content:center;
 align-items:center;
