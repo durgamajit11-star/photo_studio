@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | StudioSync</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/studio_dashboard.css">
+</head>
+<body>
+    <!-- ================= SIDEBAR ================= -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <i class="bi bi-list fs-3" onclick="toggleSidebar()"></i>
+        <span>Admin Panel</span>
+    </div>
+
+    <nav class="sidebar-menu">
+
+        <a class="active">
+            <i class="bi bi-speedometer2"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a>
+            <i class="bi bi-camera"></i>
+            <span>Users</span>
+        </a>
+
+        <!-- BOOKINGS -->
+        <a onclick="toggleSubMenu('bookingMenu')">
+            <i class="bi bi-calendar-event"></i>
+            <span>Studios</span>
+            <i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+
+        <div class="submenu" id="bookingMenu">
+            <a><i class="bi bi-clock-history"></i> Approved</a>
+            <a><i class="bi bi-check-circle"></i> Pending</a>
+            <a><i class="bi bi-x-circle"></i> Cancelled</a>
+        </div>
+
+        <a>
+            <i class="bi bi-briefcase"></i>
+            <span>About-Us</span>
+        </a>
+
+        <a>
+            <i class="bi bi-wallet2"></i>
+            <span>Bookings</span>
+        </a>
+
+        <a>
+            <i class="bi bi-star-half"></i>
+            <span>Reviews</span>
+        </a>
+
+        <!-- PROFILE -->
+        <a onclick="toggleSubMenu('profileMenu')">
+            <i class="bi bi-building"></i>
+            <span>Admin Profile</span>
+            <i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+
+        <div class="submenu" id="profileMenu">
+            <a><i class="bi bi-eye"></i> View Profile</a>
+            <a><i class="bi bi-pencil-square"></i> Edit Profile</a>
+            <a><i class="bi bi-shield-check"></i> Verification</a>
+        </div>
+
+        <a href="landing.html" class="logout">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Logout</span>
+        </a>
+
+    </nav>
+</aside>
+
+<!-- ================= MAIN ================= -->
+<div class="main">
+
+    <!-- DASHBOARD HEADER -->
+    <div class="dashboard-header">
+        <div>
+            <h2>Welcome, Creative Lens Studio 👋</h2>
+            <p>Manage bookings, portfolio & earnings from one place</p>
+        </div>
+
+        <span class="badge bg-success fs-6 px-3 py-2">
+            ✔ Verified Studio
+        </span>
+    </div>
+
+    <!-- STATS -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <h6>Total Bookings</h6>
+                <h2>128</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <h6>Upcoming Shoots</h6>
+                <h2>6</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <h6>Total Earnings</h6>
+                <h2>₹2.4L</h2>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card">
+                <h6>Average Rating</h6>
+                <h2>4.7 ★</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUICK ACTIONS -->
+    <h4 class="mb-3">⚡ Quick Actions</h4>
+    <div class="row g-4 mb-5">
+        <div class="col-md-3"><div class="action-card">📸 Add Portfolio</div></div>
+        <div class="col-md-3"><div class="action-card">📅 View Bookings</div></div>
+        <div class="col-md-3"><div class="action-card">💰 Earnings</div></div>
+        <div class="col-md-3"><div class="action-card">⚙️ Studio Profile</div></div>
+    </div>
+
+    <!-- RECENT BOOKINGS -->
+    <h4 class="mb-3">📋 Recent Bookings</h4>
+    <div class="card mb-5">
+        <!-- your table stays SAME here -->
+    </div>
+
+</div>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

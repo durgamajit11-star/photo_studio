@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard | StudioSync</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #06b6d4;
+            --bg-dark: #020617;
+            --bg-light: #f8fafc;
+            --text-dark: #020617;
+            --text-light: #ffffff;
+            --glass: rgba(255, 255, 255, 0.12);
+        }
+
+        /* ===== GLOBAL ===== */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #020617, #0f172a);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        .container,
+        .section,
+        .cta {
+            padding: 40px;
+        }
+
+
+        /* ===== FLOATING COLOR BLOBS ===== */
+        body::after {
+            content: "";
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.35), transparent 70%);
+            top: -150px;
+            right: -150px;
+            z-index: -1;
+            animation: floatBlob 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatBlob {
+            from {
+                transform: translateY(0px);
+            }
+
+            to {
+                transform: translateY(40px);
+            }
+        }
+
+
+        /* ===== GLASS ===== */
+        .glass {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        /* ===== HEADER ===== */
+        .top-header {
+            background: linear-gradient(180deg,
+                    rgba(2, 6, 23, 0.95),
+                    rgba(2, 6, 23, 0.75));
+            backdrop-filter: blur(14px);
+            padding-bottom: 20px;
+
+        }
+
+        .top-header,
+        .sidebar {
+            background: rgba(2, 6, 23, 0.85);
+
+        }
+
+
+        .header-content {
+            height: 100%;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .header-nav a {
+            margin-right: 15px;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .mobile-toggle {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 22px;
+        }
+
+        /* ===== MOBILE MENU ===== */
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            padding: 15px;
+            background: rgba(2, 6, 23, 0.95);
+        }
+
+        .mobile-menu a,
+        .mobile-menu button {
+            margin: 8px 0;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            position: fixed;
+            /* top: 70px; */
+            left: 0;
+            width: 260px;
+            height: calc(100vh - 70px);
+            padding: 20px;
+            overflow: hidden;
+            /* ✅ NO SCROLLBAR */
+            transition: width 0.35s ease;
+            transition: all 0.4s ease;
+        }
+
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-header span {
+            font-weight: 600;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            margin-bottom: 6px;
+            border-radius: 10px;
+            color: #fff;
+            text-decoration: none;
+            transition: 0.3s;
+            transition: all 0.3s ease;
+        }
+
+        /* ===== COLLAPSED SIDEBAR ===== */
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar.collapsed .sidebar-header span,
+        .sidebar.collapsed .sidebar-menu span,
+        .sidebar.collapsed .sidebar-menu .bi-chevron-down {
+            display: none;
+            /* hide text */
+        }
+
+        .sidebar.collapsed .sidebar-menu a {
+            justify-content: center;
+        }
+
+        .sidebar.collapsed .sidebar-header {
+            justify-content: center;
+        }
+
+        .sidebar.collapsed .theme-toggle {
+            display: none;
+        }
+
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            transform: translateX(5px);
+        }
+
+        .submenu {
+            display: none;
+            padding-left: 15px;
+        }
+
+        .submenu a {
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        /* ===== MAIN ===== */
+        .main-content {
+            max-width: 1400px;
+            margin-left: 260px;
+            padding:0;
+            min-height:100vh;
+            /* footer fix */
+            transition: margin-left 0.35s ease;
+        }
+
+        .sidebar.collapsed~.main-content {
+            margin-left: 80px;
+        }
+
+
+        /* ===== HERO ===== */
+       .hero {
+    width: 100%;
+    min-height: 50vh;
+    padding: 0 40px;
+    margin: 0;
+    border-radius: 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;   /* Vertical Center */
+    align-items: center;       /* Horizontal Center */
+    text-align: center;        /* Center text */
+
+    background: linear-gradient(
+        rgba(2,6,23,0.6),
+        rgba(2,6,23,0.8)
+    ),
+    url('/Frontend/assets/images/hero.jpg') center/cover no-repeat;
+}
+
+
+        @keyframes heroFade {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        .hero h1 {
+            font-size: 36px;
+        }
+
+        .search-bar {
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            border-radius: 16px;
+        }
+
+        .search-bar input,
+        .search-bar select {
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: none;
+            min-width: 160px;
+        }
+
+        .search-bar button {
+            padding: 10px 20px;
+        }
+
+
+        /* ===== SECTION ===== */
+        .section {
+            animation: fadeUpSection 1s ease;
+            margin-bottom: 80px;
+        }
+
+        @keyframes fadeUpSection {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== STUDIO CARD ===== */
+        .studio-card {
+            background: linear-gradient(180deg,
+                    rgba(255, 255, 255, 0.08),
+                    rgba(255, 255, 255, 0.03));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s ease;
+        }
+
+        .row.g-4 {
+            margin-top: 30px;
+        }
+
+        .studio-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(79, 70, 229, 0.4);
+        }
+
+
+        .studio-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .studio-info {
+            padding: 15px;
+        }
+
+        /* ===== STEPS ===== */
+        .steps {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .steps div {
+            padding: 15px 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ===== STATS ===== */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            font-size: 26px;
+        }
+
+        .stat span {
+            display: block;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        /* ===== CTA ===== */
+        .cta {
+            padding: 40px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            text-align: center;
+            box-shadow: 0 0 50px rgba(79, 70, 229, 0.6);
+            animation: pulseGlow 3s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            from {
+                box-shadow: 0 0 30px rgba(79, 70, 229, 0.4);
+            }
+
+            to {
+                box-shadow: 0 0 70px rgba(6, 182, 212, 0.6);
+            }
+        }
+
+
+        /* ===== FOOTER ===== */
+        /* ===== PREMIUM FOOTER ===== */
+        .footer {
+            position: relative;
+            background: linear-gradient(135deg, #020617, #0f172a, #1e293b);
+            padding: 70px 40px 20px;
+            margin-top: 100px;
+            overflow: hidden;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Top Gradient Line */
+        .footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, #4f46e5, #06b6d4);
+        }
+
+        /* Footer Grid */
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 40px;
+        }
+
+        /* Section Titles */
+        .footer-section h5 {
+            font-weight: 600;
+            margin-bottom: 18px;
+            color: #ffffff;
+            position: relative;
+        }
+
+        /* Underline Accent */
+        .footer-section h5::after {
+            content: "";
+            width: 40px;
+            height: 2px;
+            background: #06b6d4;
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+        }
+
+        /* Paragraphs */
+        .footer-section p {
+            font-size: 14px;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        /* Lists */
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        /* Links */
+        .footer a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #06b6d4;
+            transform: translateX(5px);
+        }
+
+        /* Icons */
+        .footer i {
+            margin-right: 8px;
+            color: #06b6d4;
+        }
+
+        /* Social Icons */
+        .social-links a {
+            font-size: 18px;
+            margin-right: 12px;
+            transition: 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #06b6d4;
+            transform: scale(1.2);
+        }
+
+        /* Bottom Line */
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 13px;
+            opacity: 0.6;
+        }
+        /* ================= CHATBOT ================= */
+
+.chat-toggle{
+    position:fixed;
+    bottom:30px;
+    right:30px;
+    width:60px;
+    height:60px;
+    background:linear-gradient(135deg,#4f46e5,#06b6d4);
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    font-size:22px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.5);
+    z-index:2000;
+    transition:0.3s;
+}
+
+.chat-toggle:hover{
+    transform:scale(1.1);
+}
+
+.chat-window{
+    position:fixed;
+    bottom:100px;
+    right:30px;
+    width:350px;
+    height:500px;
+    border-radius:20px;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    transform:translateY(30px);
+    opacity:0;
+    pointer-events:none;
+    transition:0.4s ease;
+    z-index:2000;
+}
+
+.chat-window.active{
+    transform:translateY(0);
+    opacity:1;
+    pointer-events:auto;
+}
+
+.chat-header{
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:linear-gradient(135deg,#4f46e5,#06b6d4);
+    font-weight:600;
+}
+
+.chat-body{
+    flex:1;
+    padding:15px;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.bot-message{
+    align-self:flex-start;
+    background:rgba(255,255,255,0.1);
+    padding:10px 15px;
+    border-radius:15px 15px 15px 5px;
+    max-width:75%;
+}
+
+.user-message{
+    align-self:flex-end;
+    background:linear-gradient(135deg,#4f46e5,#06b6d4);
+    padding:10px 15px;
+    border-radius:15px 15px 5px 15px;
+    max-width:75%;
+}
+
+.chat-input{
+    display:flex;
+    padding:10px;
+    background:rgba(255,255,255,0.05);
+}
+
+.chat-input input{
+    flex:1;
+    border:none;
+    outline:none;
+    padding:8px;
+    border-radius:10px;
+}
+
+.chat-input button{
+    background:linear-gradient(135deg,#4f46e5,#06b6d4);
+    border:none;
+    color:white;
+    padding:8px 12px;
+    border-radius:10px;
+    margin-left:8px;
+    cursor:pointer;
+}
+
+
+        /* ===== ANIMATION ===== */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 260px;
+                z-index: 1200;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 90px 20px 20px;
+            }
+        }
+
+
+        /* search Box */
+        @media (max-width: 576px) {
+            .search-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-bar input,
+            .search-bar select,
+            .search-bar button {
+                width: 100%;
+            }
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <!-- ================= HEADER ================= -->
+    <header class="top-header glass">
+        <div class="header-content">
+            <div class="logo">StudioSync</div>
+            <nav class="header-nav">
+                <a href="index.html">Home</a> <!-- Link to landing page -->
+                <button class="btn btn-sm btn-outline-light opacity-75">Logout</button>
+
+            </nav>
+            <button class="mobile-toggle d-md-none" onclick="toggleMobileMenu()">☰</button>
+        </div>
+        <div class="mobile-menu d-md-none" id="mobileMenu">
+            <a href="index.html">Home</a>
+            <button class="btn btn-outline-danger" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="bi bi-list fs-3" onclick="toggleSidebar()"></i>
+            <span>User Panel</span>
+            <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="#" class="active"><i class="bi bi-speedometer2"></i> <span>Dashboard</span></a>
+            <a href="#"><i class="bi bi-images"></i> <span>Studios</span></a>
+            <a href="#"><i class="bi bi-calendar-check"></i> <span>My Bookings</span></a>
+
+            <a href="#" onclick="toggleSubMenu('profileMenu')" aria-expanded="false">
+                <i class="bi bi-person-circle"></i> <span>Profile</span>
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+
+            <div class="submenu" id="profileMenu">
+                <a href="#"><i class="bi bi-eye"></i> <span>View Profile</span></a>
+                <a href="#"><i class="bi bi-pencil-square"></i> <span>Edit Profile</span></a>
+                <a href="#"><i class="bi bi-gear"></i> <span>Settings</span></a>
+            </div>
+
+            <a href="#"><i class="bi bi-headset"></i> <span>Support</span></a>
+            <a href="#" class="logout" onclick="logout()"><i class="bi bi-box-arrow-right"></i> <span>Logout</span></a>
+        </nav>
+    </aside>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="main-content">
+        <!-- HERO -->
+        <section class="hero">
+            <h1>Find Studios That Match Your Style</h1>
+            <p>Browse verified studios, compare portfolios, and book with confidence</p>
+
+
+            <div class="search-bar glass">
+                <input type="text" id="cityFilter" placeholder="📍 City (e.g. Nagpur)">
+
+                <select id="typeFilter">
+                    <option value="">All Types</option>
+                    <option value="wedding">Wedding</option>
+                    <option value="fashion">Fashion</option>
+                    <option value="events">Events</option>
+                    <option value="product">Product</option>
+                </select>
+
+                <select id="ratingFilter">
+                    <option value="">Any Rating</option>
+                    <option value="4">4★ & above</option>
+                    <option value="4.5">4.5★ & above</option>
+                </select>
+
+                <select id="priceFilter">
+                    <option value="">Any Price</option>
+                    <option value="low">₹ Budget</option>
+                    <option value="mid">₹₹ Standard</option>
+                    <option value="high">₹₹₹ Premium</option>
+                </select>
+
+                <button class="btn btn-primary" onclick="applyFilters()">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div>
+
+        </section>
+
+        <!-- FEATURED STUDIOS -->
+        <section class="section">
+            <h3>🌟 Featured Studios</h3>
+            <p class="muted">Hand-picked studios trusted by thousands</p>
+
+            <div class="row g-4">
+                <div class="col-md-3 studio-item" data-city="nagpur" data-type="wedding" data-rating="4.8"
+                    data-price="mid">
+
+                    <div class="studio-card">
+                        <img src="/Frontend/assets/images/s1.png" alt="Studio Image">
+                        <div class="studio-info">
+                            <h6>DreamShot Studio</h6>
+                            <p>📍 Nagpur</p>
+                            <span>⭐ 4.8</span>
+                            <button class="btn btn-primary btn-sm mt-2">
+                                View Portfolio
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 studio-item" data-city="nagpur" data-type="wedding" data-rating="4.8"
+                    data-price="mid">
+
+                    <div class="studio-card">
+                        <img src="/Frontend/assets/images/s2.png" alt="Studio Image">
+                        <div class="studio-info">
+                            <h6>Wedding Studio</h6>
+                            <p>📍 Mumbai</p>
+                            <span>⭐ 4.5</span>
+                            <button class="btn btn-primary btn-sm mt-2">
+                                View Portfolio
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 studio-item" data-city="mumbai" data-type="fashion" data-rating="4.7"
+                    data-price="high">
+                    <div class="studio-card">
+                        <img src="/Frontend/assets/images/s3.png" alt="Studio Image">
+                        <div class="studio-info">
+                            <h6>Fashion Hub</h6>
+                            <p>📍 Mumbai</p>
+                            <span>⭐ 4.7</span>
+                            <button class="btn btn-primary btn-sm mt-2">
+                                View Portfolio
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3 studio-item" data-city="nagpur" data-type="wedding" data-rating="4.8"
+                    data-price="mid">
+
+                    <div class="studio-card">
+                        <img src="/Frontend/assets/images/s2.png" alt="Studio Image">
+                        <div class="studio-info">
+                            <h6>Wedding Studio</h6>
+                            <p>📍 Mumbai</p>
+                            <span>⭐ 4.5</span>
+                            <button class="btn btn-primary btn-sm mt-2">
+                                View Portfolio
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Add more cards as needed -->
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="section glass">
+            <h3>🚀 How It Works</h3>
+
+            <div class="steps">
+                <div>🔍 Discover</div>
+                <div>📸 Compare</div>
+                <div>📅 Book</div>
+                <div>✅ Shoot</div>
+            </div>
+        </section>
+
+        <!-- ACHIEVEMENTS -->
+        <section class="section">
+            <h3>🏆 Our Achievements</h3>
+
+            <div class="stats">
+                <div class="stat">500+<span>Studios</span></div>
+                <div class="stat">10K+<span>Bookings</span></div>
+                <div class="stat">4.8★<span>Rating</span></div>
+                <div class="stat">24×7<span>Support</span></div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta">
+            <h3>Ready to Book Your Next Shoot?</h3>
+            <p>Join thousands of happy customers today</p>
+            <button class="btn btn-primary">Browse Studios</button>
+        </section>
+
+
+        <!-- ================= FOOTER ================= -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h5>StudioSync</h5>
+                    <p>Your go-to platform for booking professional photo studios. Connecting photographers, studios,
+                        and
+                        clients seamlessly.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="#dashboard">Dashboard</a></li>
+                        <li><a href="#studios">Browse Studios</a></li>
+                        <li><a href="#bookings">My Bookings</a></li>
+                        <li><a href="#profile">Profile</a></li>
+                        <li><a href="#support">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h5>Contact Us</h5>
+                    <p><i class="bi bi-geo-alt"></i> 123 Studio Lane, Nagpur, Maharashtra, India</p>
+                    <p><i class="bi bi-telephone"></i> +91 98765 43210</p>
+                    <p><i class="bi bi-envelope"></i> support@studiosync.com</p>
+                </div>
+                <div class="footer-section">
+                    <h5>Legal</h5>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 StudioSync. All rights reserved. | Powered by StudioSync Team</p>
+            </div>
+        </footer>
+        <!-- ================= CHATBOT ================= -->
+
+<!-- Chat Button -->
+<div class="chat-toggle" onclick="toggleChat()">
+    <i class="bi bi-chat-dots-fill"></i>
+</div>
+
+<!-- Chat Window -->
+<div class="chat-window glass" id="chatWindow">
+
+    <div class="chat-header">
+        <span>StudioSync AI Assistant</span>
+        <i class="bi bi-x-lg" onclick="toggleChat()"></i>
+    </div>
+
+    <div class="chat-body" id="chatBody">
+        <div class="bot-message">👋 Hello! How can I help you today?</div>
+    </div>
+
+    <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Type your message...">
+        <button onclick="sendMessage()">
+            <i class="bi bi-send-fill"></i>
+        </button>
+    </div>
+
+</div>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+
+            if (window.innerWidth <= 992) {
+                sidebar.classList.toggle('show');   // mobile slide
+            } else {
+                sidebar.classList.toggle('collapsed'); // desktop icon-only
+            }
+        }
+
+
+
+        function toggleSubMenu(id) {
+            const menu = document.getElementById(id);
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function logout() {
+            alert("Logged out successfully!");
+            window.location.href = "login.html";
+        }
+
+        /* THEME TOGGLE */
+        function toggleTheme() {
+            document.body.classList.toggle('light');
+        }
+        // FILTER FUNCTION
+        function applyFilters() {
+            const city = document.getElementById('cityFilter').value.toLowerCase();
+            const type = document.getElementById('typeFilter').value;
+            const rating = document.getElementById('ratingFilter').value;
+            const price = document.getElementById('priceFilter').value;
+
+            const studios = document.querySelectorAll('.studio-item');
+
+            studios.forEach(studio => {
+                const studioCity = studio.dataset.city;
+                const studioType = studio.dataset.type;
+                const studioRating = parseFloat(studio.dataset.rating);
+                const studioPrice = studio.dataset.price;
+
+                let visible = true;
+
+                if (city && !studioCity.includes(city)) visible = false;
+                if (type && studioType !== type) visible = false;
+                if (rating && studioRating < parseFloat(rating)) visible = false;
+                if (price && studioPrice !== price) visible = false;
+
+                studio.style.display = visible ? 'block' : 'none';
+            });
+        }
+        document.getElementById('cityFilter')
+            .addEventListener('keyup', applyFilters);
+
+        // Animated Counters
+        const counters = document.querySelectorAll(".stat");
+
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = parseInt(counter.innerText);
+                let count = 0;
+                const increment = target / 100;
+
+                const interval = setInterval(() => {
+                    count += increment;
+                    if (count >= target) {
+                        counter.innerHTML = target + "<span>" + counter.querySelector("span").innerText + "</span>";
+                        clearInterval(interval);
+                    } else {
+                        counter.innerHTML = Math.floor(count) + "<span>" + counter.querySelector("span").innerText + "</span>";
+                    }
+                }, 20);
+            };
+
+            updateCount();
+        });
+        /* Chat Toggle */
+function toggleChat(){
+    document.getElementById("chatWindow").classList.toggle("active");
+}
+
+/* Send Message */
+function sendMessage(){
+    const input = document.getElementById("chatInput");
+    const chatBody = document.getElementById("chatBody");
+    const message = input.value.trim();
+
+    if(message === "") return;
+
+    // User message
+    const userMsg = document.createElement("div");
+    userMsg.className = "user-message";
+    userMsg.innerText = message;
+    chatBody.appendChild(userMsg);
+
+    input.value = "";
+    chatBody.scrollTop = chatBody.scrollHeight;
+
+    // Bot reply simulation
+    setTimeout(()=>{
+        const botMsg = document.createElement("div");
+        botMsg.className = "bot-message";
+
+        if(message.toLowerCase().includes("booking")){
+            botMsg.innerText = "You can book a studio from the Bookings section.";
+        }
+        else if(message.toLowerCase().includes("price")){
+            botMsg.innerText = "Our packages start from ₹5000 onwards.";
+        }
+        else{
+            botMsg.innerText = "Thank you for your message. Our team will assist you shortly.";
+        }
+
+        chatBody.appendChild(botMsg);
+        chatBody.scrollTop = chatBody.scrollHeight;
+
+    },800);
+}
+
+    </script>
+
+
+</body>
+
+</html>

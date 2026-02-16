@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudioSync | Enterprise Booking</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+    <style>
+        /* ================= GLOBAL ================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0f172a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f172a, #1e1b4b, #111827, #0f172a);
+            background-size: 400% 400%;
+            animation: gradientMove 18s ease infinite;
+            z-index: -2;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Glass Effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ================= NAVBAR ================= */
+        .navbar {
+            width: 100%;
+            padding: 18px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #e2e8f0;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #6366f1;
+        }
+
+        /* ================= STEPPER ================= */
+        .stepper {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0 20px;
+        }
+
+        .step {
+            padding: 8px 18px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            font-size: 14px;
+        }
+
+        .step.active {
+            background: #6366f1;
+        }
+
+
+        /* ================= LAYOUT ================= */
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+        .sidebar {
+            width: 240px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            transition: 0.3s;
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar.collapsed .sidebar-menu span {
+            display: none;
+        }
+
+        .sidebar.collapsed .sidebar-menu a {
+            justify-content: center;
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .brand {
+            font-weight: 700;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #e2e8f0;
+            padding: 10px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .sidebar-menu a i {
+            text-decoration: none;
+            color: #e2e8f0;
+            padding: 10px;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: #6366f1;
+            color: white;
+        }
+
+        .sidebar-menu a:hover i,
+        .sidebar-menu a.active i {
+            transform: scale(1.1);
+            color: white;
+        }
+
+        /* ================= MAIN ================= */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            padding: 18px 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* ================= MAIN CONTAINER ================= */
+        .container {
+            width: 1200px;
+            margin: 30px auto 60px;
+            padding: 40px;
+            display: flex;
+            gap: 40px;
+            border-radius: 20px;
+        }
+
+        /* LEFT FORM */
+        .form-section {
+            flex: 2;
+        }
+
+        .section {
+            display: none;
+            animation: fade 0.4s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 6px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        input,
+        select {
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            outline: none;
+        }
+
+        select option {
+            color: black;
+        }
+
+        /* Slots */
+        .slots {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .slot {
+            padding: 8px 18px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .slot.available:hover {
+            background: #6366f1;
+        }
+
+        .slot.booked {
+            background: #7f1d1d;
+            cursor: not-allowed;
+        }
+
+        .slot.selected {
+            background: #06b6d4;
+        }
+
+        /* Addons */
+        .addons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .addons label {
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 22px;
+            border: none;
+            border-radius: 25px;
+            background: #6366f1;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px #6366f1;
+        }
+
+        .success-icon {
+            font-size: 60px;
+            color: #06b6d4;
+            margin-bottom: 15px;
+            animation: pop 0.5s ease;
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(0);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* SUMMARY PANEL */
+        .summary {
+            flex: 1;
+            padding: 25px;
+            border-radius: 20px;
+        }
+
+        .summary h3 {
+            margin-bottom: 15px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .total {
+            margin-top: 15px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        /* SUCCESS MODAL */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            padding: 40px;
+            text-align: center;
+            border-radius: 20px;
+        }
+
+        .secure {
+            margin-top: 15px;
+            font-size: 13px;
+            opacity: 0.7;
+        }
+
+        .success-icon {
+            font-size: 65px;
+            color: #06b6d4;
+            margin-bottom: 15px;
+            animation: popIn 0.4s ease;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            animation: fadeUp 0.3s ease;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* FOOTER */
+        .footer {
+            width: 100%;
+            padding: 25px 60px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:1200px) {
+            .container {
+                width: 95%;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar glass" id="sidebar">
+            <div class="sidebar-header">
+                <span class="brand">Menu</span>
+                <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+            </div>
+
+            <nav class="sidebar-menu">
+                <a href="#">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#">
+                    <i class="fas fa-camera"></i>
+                    <span>Studios</span>
+                </a>
+                <a href="#">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Bookings</span>
+                </a>
+                <a href="#">
+                    <i class="fas fa-credit-card"></i>
+                    <span>Payments</span>
+                </a>
+                <a href="#">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+
+            <!-- HEADER -->
+            <nav class="navbar glass">
+                <div class="page-title">StudioSync Booking</div>
+                <button class="btn" onclick="logout()">Logout</button>
+
+            </nav>
+
+            <!-- STEPPER -->
+            <div class="stepper">
+                <div class="step active">1. Booking Details</div>
+                <div class="step">2. Payment</div>
+            </div>
+
+            <!-- BOOKING CONTAINER -->
+            <div class="container glass">
+
+                <!-- LEFT FORM -->
+                <div class="form-section">
+
+                    <!-- STEP 1 -->
+                    <div class="section active" id="step1">
+
+                        <div class="form-group">
+                            <label>Select Date</label>
+                            <input type="date">
+                        </div>
+
+                        <label>Select Time Slot</label>
+                        <div class="slots">
+                            <div class="slot available">09:00 AM</div>
+                            <div class="slot available">12:00 PM</div>
+                            <div class="slot booked">03:00 PM</div>
+                            <div class="slot available">06:00 PM</div>
+                        </div>
+
+                        <label>Add-ons</label>
+                        <div class="addons">
+                            <label><span>Drone Coverage</span><input type="checkbox" value="1500"></label>
+                            <label><span>Extra Lighting</span><input type="checkbox" value="800"></label>
+                            <label><span>Makeup Artist</span><input type="checkbox" value="2000"></label>
+                        </div>
+
+                        <div style="text-align:right;">
+                            <button class="btn" onclick="nextStep()">Proceed to Payment</button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2 -->
+                    <div class="section" id="step2">
+                        <div class="form-group">
+                            <label>Card Number</label>
+                            <input type="text" placeholder="XXXX XXXX XXXX XXXX">
+                        </div>
+                        <div class="form-group">
+                            <label>Expiry</label>
+                            <input type="text" placeholder="MM/YY">
+                        </div>
+                        <div class="form-group">
+                            <label>CVV</label>
+                            <input type="password" placeholder="***">
+                        </div>
+
+                        <div style="display:flex; justify-content:space-between;">
+                            <button class="btn" onclick="prevStep()">Back</button>
+                            <button class="btn" onclick="confirmBooking()">Pay Now</button>
+                        </div>
+
+                        <div class="secure">🔒 256-bit SSL Secure Payment</div>
+                    </div>
+
+                </div>
+
+                <!-- SUMMARY -->
+                <div class="summary glass">
+                    <h3>Booking Summary</h3>
+                    <div class="summary-item">
+                        <span>Base Package</span>
+                        <span>₹5000</span>
+                    </div>
+
+                    <div id="addonSummary"></div>
+
+                    <div class="summary-item">
+                        <span>GST (18%)</span>
+                        <span id="gst">₹900</span>
+                    </div>
+
+                    <div class="summary-item total">
+                        <span>Total</span>
+                        <span id="total">₹5900</span>
+                    </div>
+                </div>
+
+            </div>
+            <!-- SUCCESS -->
+            <div class="modal" id="successModal">
+                <div class="modal-content glass">
+
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+
+                    <h3>Payment Successful 🎉</h3>
+                    <p>Your premium studio has been successfully reserved.</p>
+
+                    <button class="btn" onclick="closeModal()">Close</button>
+
+                </div>
+            </div>
+
+            <!-- FOOTER -->
+            <footer class="footer glass">
+                © 2026 StudioSync | Secure Enterprise Booking Platform
+            </footer>
+
+        </div>
+    </div>
+
+
+    <script>
+
+        let currentStep = 1;
+        const totalSteps = 2;
+        let basePrice = 5000;
+
+        function showStep(step) {
+            document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
+            document.querySelectorAll(".step").forEach(st => st.classList.remove("active"));
+
+            document.getElementById("step" + step).classList.add("active");
+            document.querySelectorAll(".step")[step - 1].classList.add("active");
+
+            // Auto highlight sidebar
+            sidebarLinks.forEach(l => l.classList.remove("active"));
+
+            if (step === 1) {
+                sidebarLinks[2].classList.add("active"); // Bookings
+            }
+            if (step === 2) {
+                sidebarLinks[3].classList.add("active"); // Payments
+            }
+        }
+
+
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        }
+
+        const slots = document.querySelectorAll(".slot.available");
+        slots.forEach(slot => {
+            slot.addEventListener("click", () => {
+                slots.forEach(s => s.classList.remove("selected"));
+                slot.classList.add("selected");
+            });
+        });
+
+        const checkboxes = document.querySelectorAll(".addons input");
+        checkboxes.forEach(cb => cb.addEventListener("change", calculateTotal));
+
+        function calculateTotal() {
+            let addonTotal = 0;
+            let addonSummary = document.getElementById("addonSummary");
+            addonSummary.innerHTML = "";
+            checkboxes.forEach(cb => {
+                if (cb.checked) {
+                    addonTotal += parseInt(cb.value);
+                    addonSummary.innerHTML += `
+<div class="summary-item">
+<span>${cb.parentElement.innerText}</span>
+<span>₹${cb.value}</span>
+</div>`;
+                }
+            });
+            let subtotal = basePrice + addonTotal;
+            let gst = subtotal * 0.18;
+            let total = subtotal + gst;
+            document.getElementById("gst").innerText = "₹" + gst.toFixed(0);
+            document.getElementById("total").innerText = "₹" + total.toFixed(0);
+        }
+
+        function confirmBooking() {
+
+            let payButton = event.target;
+            payButton.innerText = "Processing...";
+            payButton.disabled = true;
+
+            setTimeout(() => {
+                document.getElementById("successModal").style.display = "flex";
+                payButton.innerText = "Pay Now";
+                payButton.disabled = false;
+            }, 1500);
+
+        }
+
+
+        function closeModal() {
+            document.getElementById("successModal").style.display = "none";
+        }
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("collapsed");
+        }
+
+        // Sidebar Active Switching
+        const sidebarLinks = document.querySelectorAll(".sidebar-menu a");
+
+        sidebarLinks.forEach(link => {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+
+                // Remove active from all
+                sidebarLinks.forEach(l => l.classList.remove("active"));
+
+                // Add active to clicked one
+                this.classList.add("active");
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
