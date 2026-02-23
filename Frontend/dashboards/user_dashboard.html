@@ -225,8 +225,8 @@
         .main-content {
             max-width: 1400px;
             margin-left: 260px;
-            padding:0;
-            min-height:100vh;
+            padding: 0;
+            min-height: 100vh;
             /* footer fix */
             transition: margin-left 0.35s ease;
         }
@@ -237,25 +237,26 @@
 
 
         /* ===== HERO ===== */
-       .hero {
-    width: 100%;
-    min-height: 50vh;
-    padding: 0 40px;
-    margin: 0;
-    border-radius: 0;
+        .hero {
+            width: 100%;
+            min-height: 50vh;
+            padding: 0 40px;
+            margin: 0;
+            border-radius: 0;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;   /* Vertical Center */
-    align-items: center;       /* Horizontal Center */
-    text-align: center;        /* Center text */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* Vertical Center */
+            align-items: center;
+            /* Horizontal Center */
+            text-align: center;
+            /* Center text */
 
-    background: linear-gradient(
-        rgba(2,6,23,0.6),
-        rgba(2,6,23,0.8)
-    ),
-    url('/Frontend/assets/images/hero.jpg') center/cover no-repeat;
-}
+            background: linear-gradient(rgba(2, 6, 23, 0.6),
+                    rgba(2, 6, 23, 0.8)),
+                url('/Frontend/assets/images/hero.jpg') center/cover no-repeat;
+        }
 
 
         @keyframes heroFade {
@@ -504,110 +505,111 @@
             font-size: 13px;
             opacity: 0.6;
         }
+
         /* ================= CHATBOT ================= */
 
-.chat-toggle{
-    position:fixed;
-    bottom:30px;
-    right:30px;
-    width:60px;
-    height:60px;
-    background:linear-gradient(135deg,#4f46e5,#06b6d4);
-    border-radius:50%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    cursor:pointer;
-    font-size:22px;
-    box-shadow:0 8px 25px rgba(0,0,0,0.5);
-    z-index:2000;
-    transition:0.3s;
-}
+        .chat-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 22px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            transition: 0.3s;
+        }
 
-.chat-toggle:hover{
-    transform:scale(1.1);
-}
+        .chat-toggle:hover {
+            transform: scale(1.1);
+        }
 
-.chat-window{
-    position:fixed;
-    bottom:100px;
-    right:30px;
-    width:350px;
-    height:500px;
-    border-radius:20px;
-    display:flex;
-    flex-direction:column;
-    overflow:hidden;
-    transform:translateY(30px);
-    opacity:0;
-    pointer-events:none;
-    transition:0.4s ease;
-    z-index:2000;
-}
+        .chat-window {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            height: 500px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(30px);
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.4s ease;
+            z-index: 2000;
+        }
 
-.chat-window.active{
-    transform:translateY(0);
-    opacity:1;
-    pointer-events:auto;
-}
+        .chat-window.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
 
-.chat-header{
-    padding:15px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    background:linear-gradient(135deg,#4f46e5,#06b6d4);
-    font-weight:600;
-}
+        .chat-header {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
+            font-weight: 600;
+        }
 
-.chat-body{
-    flex:1;
-    padding:15px;
-    overflow-y:auto;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-}
+        .chat-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-.bot-message{
-    align-self:flex-start;
-    background:rgba(255,255,255,0.1);
-    padding:10px 15px;
-    border-radius:15px 15px 15px 5px;
-    max-width:75%;
-}
+        .bot-message {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 15px 15px 15px 5px;
+            max-width: 75%;
+        }
 
-.user-message{
-    align-self:flex-end;
-    background:linear-gradient(135deg,#4f46e5,#06b6d4);
-    padding:10px 15px;
-    border-radius:15px 15px 5px 15px;
-    max-width:75%;
-}
+        .user-message {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
+            padding: 10px 15px;
+            border-radius: 15px 15px 5px 15px;
+            max-width: 75%;
+        }
 
-.chat-input{
-    display:flex;
-    padding:10px;
-    background:rgba(255,255,255,0.05);
-}
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+        }
 
-.chat-input input{
-    flex:1;
-    border:none;
-    outline:none;
-    padding:8px;
-    border-radius:10px;
-}
+        .chat-input input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 8px;
+            border-radius: 10px;
+        }
 
-.chat-input button{
-    background:linear-gradient(135deg,#4f46e5,#06b6d4);
-    border:none;
-    color:white;
-    padding:8px 12px;
-    border-radius:10px;
-    margin-left:8px;
-    cursor:pointer;
-}
+        .chat-input button {
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 10px;
+            margin-left: 8px;
+            cursor: pointer;
+        }
 
 
         /* ===== ANIMATION ===== */
@@ -898,31 +900,31 @@
         </footer>
         <!-- ================= CHATBOT ================= -->
 
-<!-- Chat Button -->
-<div class="chat-toggle" onclick="toggleChat()">
-    <i class="bi bi-chat-dots-fill"></i>
-</div>
+        <!-- Chat Button -->
+        <div class="chat-toggle" onclick="toggleChat()">
+            <i class="bi bi-chat-dots-fill"></i>
+        </div>
 
-<!-- Chat Window -->
-<div class="chat-window glass" id="chatWindow">
+        <!-- Chat Window -->
+        <div class="chat-window glass" id="chatWindow">
 
-    <div class="chat-header">
-        <span>StudioSync AI Assistant</span>
-        <i class="bi bi-x-lg" onclick="toggleChat()"></i>
-    </div>
+            <div class="chat-header">
+                <span>StudioSync AI Assistant</span>
+                <i class="bi bi-x-lg" onclick="toggleChat()"></i>
+            </div>
 
-    <div class="chat-body" id="chatBody">
-        <div class="bot-message">👋 Hello! How can I help you today?</div>
-    </div>
+            <div class="chat-body" id="chatBody">
+                <div class="bot-message">👋 Hello! How can I help you today?</div>
+            </div>
 
-    <div class="chat-input">
-        <input type="text" id="chatInput" placeholder="Type your message...">
-        <button onclick="sendMessage()">
-            <i class="bi bi-send-fill"></i>
-        </button>
-    </div>
+            <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Type your message...">
+                <button onclick="sendMessage()">
+                    <i class="bi bi-send-fill"></i>
+                </button>
+            </div>
 
-</div>
+        </div>
 
     </main>
 
@@ -1011,47 +1013,47 @@
             updateCount();
         });
         /* Chat Toggle */
-function toggleChat(){
-    document.getElementById("chatWindow").classList.toggle("active");
-}
-
-/* Send Message */
-function sendMessage(){
-    const input = document.getElementById("chatInput");
-    const chatBody = document.getElementById("chatBody");
-    const message = input.value.trim();
-
-    if(message === "") return;
-
-    // User message
-    const userMsg = document.createElement("div");
-    userMsg.className = "user-message";
-    userMsg.innerText = message;
-    chatBody.appendChild(userMsg);
-
-    input.value = "";
-    chatBody.scrollTop = chatBody.scrollHeight;
-
-    // Bot reply simulation
-    setTimeout(()=>{
-        const botMsg = document.createElement("div");
-        botMsg.className = "bot-message";
-
-        if(message.toLowerCase().includes("booking")){
-            botMsg.innerText = "You can book a studio from the Bookings section.";
-        }
-        else if(message.toLowerCase().includes("price")){
-            botMsg.innerText = "Our packages start from ₹5000 onwards.";
-        }
-        else{
-            botMsg.innerText = "Thank you for your message. Our team will assist you shortly.";
+        function toggleChat() {
+            document.getElementById("chatWindow").classList.toggle("active");
         }
 
-        chatBody.appendChild(botMsg);
-        chatBody.scrollTop = chatBody.scrollHeight;
+        /* Send Message */
+        function sendMessage() {
+            const input = document.getElementById("chatInput");
+            const chatBody = document.getElementById("chatBody");
+            const message = input.value.trim();
 
-    },800);
-}
+            if (message === "") return;
+
+            // User message
+            const userMsg = document.createElement("div");
+            userMsg.className = "user-message";
+            userMsg.innerText = message;
+            chatBody.appendChild(userMsg);
+
+            input.value = "";
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            // Bot reply simulation
+            setTimeout(() => {
+                const botMsg = document.createElement("div");
+                botMsg.className = "bot-message";
+
+                if (message.toLowerCase().includes("booking")) {
+                    botMsg.innerText = "You can book a studio from the Bookings section.";
+                }
+                else if (message.toLowerCase().includes("price")) {
+                    botMsg.innerText = "Our packages start from ₹5000 onwards.";
+                }
+                else {
+                    botMsg.innerText = "Thank you for your message. Our team will assist you shortly.";
+                }
+
+                chatBody.appendChild(botMsg);
+                chatBody.scrollTop = chatBody.scrollHeight;
+
+            }, 800);
+        }
 
     </script>
 
